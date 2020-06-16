@@ -98,8 +98,7 @@ pipeline {
       }
       steps {
         container('docker'){
-          sh "docker tag ${env.TAG_DEV} ${env.TAG_STAGING}"
-          sh "docker push ${env.TAG_STAGING}"
+          sh "docker build -t ${env.TAG_DEV} --network container:\$(docker ps | grep \$(hostname) | grep k8s_POD | cut -d\" \" -f1) ."
         }
       }
     }
